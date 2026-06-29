@@ -1,0 +1,19 @@
+{
+  "name": "Pesquisa de Satisfação",
+  "short_name": "Satisfação",
+  "description": "Avalie nosso atendimento: Ótimo, Bom ou Ruim.",
+  "start_url": "login.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

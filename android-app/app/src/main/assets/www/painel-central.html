@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Painel Central — Pesquisa de Satisfação</title>
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>Painel Central <span style="font-size:14px;color:#64748b;font-weight:400">(todos os totens)</span></h1>
+      <div class="actions">
+        <a href="index.html" id="btnPesquisa" class="btn">← Pesquisa</a>
+        <a href="cadastro.html" id="btnUsuarios" class="btn" hidden>👤 Cadastro de usuários</a>
+        <button id="btnRefresh" class="btn btn--primary">Atualizar</button>
+        <button id="btnLogout" class="btn">Sair</button>
+      </div>
+    </div>
+    <p class="muted" id="metaInfo">—</p>
+
+    <!-- Tela de login -->
+    <div id="login" class="panel" style="max-width:420px">
+      <h2>Acesso aos resultados</h2>
+      <p class="muted" style="margin-bottom:14px">Entre com seu login de operador. O que você vê depende do seu grupo (Administrador, Supervisor ou Gerente).</p>
+      <label class="campo" style="color:var(--muted)">Login
+        <input id="loginUser" type="text" autocapitalize="none" placeholder="seu login" />
+      </label>
+      <label class="campo" style="color:var(--muted)">Senha
+        <input id="senha" type="password" placeholder="sua senha" />
+      </label>
+      <div id="loginErr" style="color:var(--ruim);font-size:14px;margin-bottom:12px;display:none"></div>
+      <button id="btnEntrar" class="btn btn--primary" style="width:100%;justify-content:center">Entrar</button>
+      <p class="muted" style="margin:14px 0 0;font-size:12px">Administrador-mestre: deixe o login em branco e informe a senha de administrador.</p>
+    </div>
+
+    <!-- Conteúdo -->
+    <div id="conteudo" hidden>
+      <div class="panel filtros">
+        <h2>Filtrar por data e hora</h2>
+        <div class="filtro-presets">
+          <button class="btn chip" data-preset="hoje">Hoje</button>
+          <button class="btn chip" data-preset="ontem">Ontem</button>
+          <button class="btn chip" data-preset="7d">Últimos 7 dias</button>
+          <button class="btn chip" data-preset="30d">Últimos 30 dias</button>
+          <button class="btn chip" data-preset="tudo">Tudo</button>
+        </div>
+        <div class="filtro-range">
+          <label>Localidade<br><select id="fLocal"><option value="">Todas</option></select></label>
+          <label>Operador<br><select id="fOperador"><option value="">Todos</option></select></label>
+          <label>De<br><input type="datetime-local" id="fDe" /></label>
+          <label>Até<br><input type="datetime-local" id="fAte" /></label>
+          <button id="btnAplicar" class="btn btn--primary">Aplicar</button>
+          <button id="btnLimpar" class="btn">Limpar</button>
+        </div>
+        <p class="muted" id="filtroAtivo" style="margin:12px 0 0"></p>
+      </div>
+
+      <div class="cards">
+        <div class="stat"><div class="v" id="cTotal">0</div><div class="k">Total de respostas</div></div>
+        <div class="stat stat--otimo"><div class="v" id="cOtimo">0</div><div class="k">Ótimo</div></div>
+        <div class="stat stat--bom"><div class="v" id="cBom">0</div><div class="k">Bom</div></div>
+        <div class="stat stat--ruim"><div class="v" id="cRuim">0</div><div class="k">Ruim</div></div>
+        <div class="stat"><div class="v" id="cDisp">0</div><div class="k">Totens (aparelhos)</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>Distribuição das respostas</h2>
+        <div class="bar-row"><span class="name">Ótimo</span><div class="bar-track"><div id="barOtimo" class="bar-fill bar-fill--otimo" style="width:0%"></div></div><span class="pct" id="pctOtimo">0%</span></div>
+        <div class="bar-row"><span class="name">Bom</span><div class="bar-track"><div id="barBom" class="bar-fill bar-fill--bom" style="width:0%"></div></div><span class="pct" id="pctBom">0%</span></div>
+        <div class="bar-row"><span class="name">Ruim</span><div class="bar-track"><div id="barRuim" class="bar-fill bar-fill--ruim" style="width:0%"></div></div><span class="pct" id="pctRuim">0%</span></div>
+      </div>
+
+      <div class="panel">
+        <h2>Índice de Satisfação</h2>
+        <div class="score-big" id="scoreVal">—</div>
+        <div class="score-label" id="scoreLabel">Sem dados ainda</div>
+      </div>
+
+      <div class="panel">
+        <h2>O que podemos melhorar (mais citados)</h2>
+        <div id="listaMelhorias"><p class="muted">Sem dados.</p></div>
+      </div>
+
+      <div class="panel">
+        <h2>Resultados por localidade</h2>
+        <table>
+          <thead><tr><th>Localidade</th><th>Total</th><th>Ótimo</th><th>Bom</th><th>Ruim</th><th>Índice</th></tr></thead>
+          <tbody id="tbodyLocais"><tr><td colspan="6" class="muted">Sem dados.</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Resultados por operador</h2>
+        <table>
+          <thead><tr><th>Operador</th><th>Localidade</th><th>Total</th><th>Ótimo</th><th>Bom</th><th>Ruim</th><th>Índice</th></tr></thead>
+          <tbody id="tbodyOperadores"><tr><td colspan="7" class="muted">Sem dados.</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Respostas por dia</h2>
+        <div id="chartDias" style="display:flex;align-items:flex-end;gap:6px;height:160px;padding-top:10px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Respostas por hora do dia</h2>
+        <div id="chartHoras" style="display:flex;align-items:flex-end;gap:3px;height:140px;padding-top:10px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Comentários</h2>
+        <div id="listaComentarios"><p class="muted">Sem comentários.</p></div>
+      </div>
+
+      <div class="panel">
+        <h2>Últimas respostas</h2>
+        <table>
+          <thead><tr><th>Data/Hora</th><th>Avaliação</th><th>Localidade</th><th>Operador</th></tr></thead>
+          <tbody id="tbody"><tr><td colspan="4" class="muted">Sem dados.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/central.js"></script>
+</body>
+</html>

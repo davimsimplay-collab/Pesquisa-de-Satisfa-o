@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Cadastro — Pesquisa de Satisfação</title>
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>Administração</h1>
+      <div class="actions">
+        <a href="login.html" class="btn">← Login</a>
+        <a href="painel-central.html" class="btn">📊 Painel central</a>
+        <button id="btnSair" class="btn" hidden>Sair da administração</button>
+      </div>
+    </div>
+    <p class="muted" id="metaInfo">Cadastre localidades e operadores que farão login nos totens.</p>
+
+    <!-- Login do administrador -->
+    <div id="login" class="panel" style="max-width:420px">
+      <h2>Acesso do administrador</h2>
+      <p class="muted" style="margin-bottom:14px">Informe a senha de administrador.</p>
+      <input id="senhaAdmin" type="password" placeholder="Senha de administrador"
+        style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;margin-bottom:12px" />
+      <div id="loginErr" style="color:var(--ruim);font-size:14px;margin-bottom:12px;display:none"></div>
+      <button id="btnEntrar" class="btn btn--primary" style="width:100%;justify-content:center">Entrar</button>
+    </div>
+
+    <!-- Conteúdo -->
+    <div id="conteudo" hidden>
+      <!-- Localidades -->
+      <div class="panel">
+        <h2>Localidades</h2>
+        <div class="form-linha">
+          <input id="novoLocal" type="text" placeholder="Nome da localidade (ex.: Loja Centro)" />
+          <button id="btnAddLocal" class="btn btn--primary">Adicionar</button>
+        </div>
+        <div id="localErr" class="aviso-erro" hidden></div>
+        <table>
+          <thead><tr><th>Localidade</th><th>Criada em</th><th></th></tr></thead>
+          <tbody id="tbodyLocais"><tr><td colspan="3" class="muted">Carregando…</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Operadores -->
+      <div class="panel">
+        <h2>Operadores</h2>
+        <div class="form-grid">
+          <label>Nome<br><input id="opNome" type="text" placeholder="Ex.: Maria Silva" /></label>
+          <label>Login<br><input id="opLogin" type="text" placeholder="Ex.: maria" autocapitalize="none" /></label>
+          <label>Senha<br><input id="opSenha" type="text" placeholder="Mín. 4 caracteres" /></label>
+          <label style="grid-column:1/-1">Localidades (pode marcar mais de uma)<br>
+            <div id="opLocais" class="loc-checks"></div>
+          </label>
+          <label>Grupo / Papel<br>
+            <select id="opPapel">
+              <option value="gerente">Gerente (vê só os próprios)</option>
+              <option value="supervisor">Supervisor (vê operadores designados)</option>
+              <option value="admin">Administrador (vê tudo)</option>
+            </select>
+          </label>
+          <button id="btnAddOperador" class="btn btn--primary">Cadastrar operador</button>
+        </div>
+        <div id="supervisaoNovo" class="supervisao-box" hidden>
+          <strong>Operadores que este supervisor poderá ver:</strong>
+          <div id="supervisaoLista" class="supervisao-lista"></div>
+        </div>
+        <div id="formErr" style="color:var(--ruim);font-size:14px;margin:8px 0;display:none"></div>
+        <table>
+          <thead><tr><th>Nome</th><th>Login</th><th>Grupo</th><th>Localidade</th><th>Ações</th></tr></thead>
+          <tbody id="tbodyOperadores"><tr><td colspan="5" class="muted">Carregando…</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Editar operador -->
+      <div id="painelEditarOp" class="panel" hidden style="border:2px solid var(--bg)">
+        <h2>Editar operador</h2>
+        <div class="form-grid">
+          <label>Nome<br><input id="edNome" type="text" /></label>
+          <label>Login<br><input id="edLogin" type="text" autocapitalize="none" /></label>
+          <label style="grid-column:1/-1">Localidades (pode marcar mais de uma)<br>
+            <div id="edLocais" class="loc-checks"></div>
+          </label>
+          <label>Grupo / Papel<br>
+            <select id="edPapel">
+              <option value="gerente">Gerente (vê só os próprios)</option>
+              <option value="supervisor">Supervisor (vê operadores designados)</option>
+              <option value="admin">Administrador (vê tudo)</option>
+            </select>
+          </label>
+        </div>
+        <div id="edErr" style="color:var(--ruim);font-size:14px;margin:8px 0;display:none"></div>
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <button id="btnSalvarEdicao" class="btn btn--primary">Salvar alterações</button>
+          <button id="btnCancelarEdicao" class="btn">Cancelar</button>
+        </div>
+        <p class="muted" style="margin:12px 0 0;font-size:12px">Para trocar a senha, use o botão "Senha" na lista. Para definir quem um supervisor acompanha, use "Acessos".</p>
+      </div>
+
+      <!-- Editar acessos de um supervisor -->
+      <div id="painelAcessos" class="panel" hidden style="border:2px solid var(--bg)">
+        <h2>Acessos de <span id="acessosNome"></span></h2>
+        <p class="muted">Marque os operadores que este supervisor poderá ver nos resultados.</p>
+        <div id="acessosLista" class="supervisao-lista"></div>
+        <div style="margin-top:14px;display:flex;gap:10px">
+          <button id="btnSalvarAcessos" class="btn btn--primary">Salvar acessos</button>
+          <button id="btnFecharAcessos" class="btn">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/cadastro.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Painel — Pesquisa de Satisfação</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>Painel de Resultados</h1>
+      <div class="actions">
+        <a href="index.html" class="btn">← Voltar à pesquisa</a>
+        <a href="painel-central.html" class="btn">📊 Painel central</a>
+        <button id="btnSync" class="btn btn--primary">Sincronizar agora</button>
+        <button id="btnExport" class="btn">Exportar CSV</button>
+        <button id="btnClear" class="btn btn--danger">Limpar</button>
+      </div>
+    </div>
+    <p class="muted" id="metaInfo">Carregando…</p>
+
+    <div class="panel filtros">
+      <h2>Filtrar por data e hora</h2>
+      <div class="filtro-presets">
+        <button class="btn chip active" data-preset="tudo">Tudo</button>
+        <button class="btn chip" data-preset="hoje">Hoje</button>
+        <button class="btn chip" data-preset="ontem">Ontem</button>
+        <button class="btn chip" data-preset="7d">Últimos 7 dias</button>
+        <button class="btn chip" data-preset="30d">Últimos 30 dias</button>
+      </div>
+      <div class="filtro-range">
+        <label>De<br><input type="datetime-local" id="fDe" /></label>
+        <label>Até<br><input type="datetime-local" id="fAte" /></label>
+        <button id="btnAplicar" class="btn btn--primary">Aplicar</button>
+        <button id="btnLimpar" class="btn">Limpar</button>
+      </div>
+      <p class="muted" id="filtroAtivo" style="margin:12px 0 0">Sem filtro (mostrando todo o período).</p>
+    </div>
+
+    <div class="cards">
+      <div class="stat"><div class="v" id="cTotal">0</div><div class="k">Total de respostas</div></div>
+      <div class="stat stat--otimo"><div class="v" id="cOtimo">0</div><div class="k">Ótimo</div></div>
+      <div class="stat stat--bom"><div class="v" id="cBom">0</div><div class="k">Bom</div></div>
+      <div class="stat stat--ruim"><div class="v" id="cRuim">0</div><div class="k">Ruim</div></div>
+    </div>
+
+    <div class="panel">
+      <h2>Distribuição das respostas</h2>
+      <div class="bar-row">
+        <span class="name">Ótimo</span>
+        <div class="bar-track"><div id="barOtimo" class="bar-fill bar-fill--otimo" style="width:0%"></div></div>
+        <span class="pct" id="pctOtimo">0%</span>
+      </div>
+      <div class="bar-row">
+        <span class="name">Bom</span>
+        <div class="bar-track"><div id="barBom" class="bar-fill bar-fill--bom" style="width:0%"></div></div>
+        <span class="pct" id="pctBom">0%</span>
+      </div>
+      <div class="bar-row">
+        <span class="name">Ruim</span>
+        <div class="bar-track"><div id="barRuim" class="bar-fill bar-fill--ruim" style="width:0%"></div></div>
+        <span class="pct" id="pctRuim">0%</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Índice de Satisfação</h2>
+      <div class="score-big" id="scoreVal">—</div>
+      <div class="score-label" id="scoreLabel">Sem dados ainda</div>
+    </div>
+
+    <div class="panel">
+      <h2>Últimas respostas</h2>
+      <table>
+        <thead>
+          <tr><th>Data/Hora</th><th>Avaliação</th><th>Envio</th></tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="3" class="muted">Nenhuma resposta ainda.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

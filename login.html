@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Entrar — Pesquisa de Satisfação</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <img src="icons/icon.svg" alt="" width="48" height="48" />
+      <h1>Pesquisa de Satisfação</h1>
+      <p>Entre com o operador deste totem</p>
+    </div>
+
+    <label class="campo">Login
+      <input id="login" type="text" autocomplete="username" autocapitalize="none" placeholder="ex.: maria" />
+    </label>
+    <label class="campo">Senha
+      <input id="senha" type="password" autocomplete="current-password" placeholder="Sua senha" />
+    </label>
+    <label class="campo">Localidade
+      <select id="loginLocal"><option value="">Carregando…</option></select>
+    </label>
+
+    <div id="erro" class="login-erro" hidden></div>
+    <button id="btnEntrar" class="btn btn--primary btn-grande">Entrar</button>
+
+    <div id="offlineAviso" class="login-offline" hidden>
+      Sem internet agora. O login exige conexão na primeira vez.
+    </div>
+
+    <a href="cadastro.html" class="login-admin">Administração / cadastrar operadores</a>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/sessao.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

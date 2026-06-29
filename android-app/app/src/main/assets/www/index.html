@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Pesquisa de Satisfação</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="kiosk">
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/icon.svg" alt="" width="28" height="28" />
+      <span>Pesquisa de Satisfação</span>
+    </div>
+    <div class="status">
+      <select id="localPicker" class="local-picker" title="Localidade atual" hidden></select>
+      <span id="operadorInfo" class="operador" title="Operador e localidade"></span>
+      <span id="syncBadge" class="badge" title="Status de sincronização">•••</span>
+      <a href="admin.html" class="admin-link" title="Painel de resultados">Painel</a>
+      <a href="#" id="btnSair" class="admin-link" title="Sair">Sair</a>
+    </div>
+  </header>
+
+  <main class="survey">
+    <h1 class="question">Como você avalia o nosso atendimento?</h1>
+    <p class="subtitle">Toque na opção que representa sua experiência</p>
+
+    <div class="options" role="group" aria-label="Opções de avaliação">
+      <button class="option option--otimo" data-value="otimo" aria-label="Ótimo">
+        <span class="face">😀</span>
+        <span class="label">Ótimo</span>
+      </button>
+      <button class="option option--bom" data-value="bom" aria-label="Bom">
+        <span class="face">🙂</span>
+        <span class="label">Bom</span>
+      </button>
+      <button class="option option--ruim" data-value="ruim" aria-label="Ruim">
+        <span class="face">😞</span>
+        <span class="label">Ruim</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- Tela "O que podemos melhorar?" (aparece só ao escolher Ruim) -->
+  <div id="melhoriasTela" class="melhorias-tela" hidden>
+    <div class="melhorias-box">
+      <h2 class="melhorias-titulo">O que podemos melhorar?</h2>
+      <p class="melhorias-sub">Marque uma ou mais opções.</p>
+      <div class="melhorias-opcoes" id="melhoriasOpcoes">
+        <button class="melhoria" data-melhoria="Atendimento"><span>👥</span> Atendimento</button>
+        <button class="melhoria" data-melhoria="Tempero"><span>🧂</span> Tempero</button>
+        <button class="melhoria" data-melhoria="Sabor"><span>👅</span> Sabor</button>
+        <button class="melhoria" data-melhoria="Temperatura"><span>🌡️</span> Temperatura</button>
+        <button class="melhoria" data-melhoria="Higiene e limpeza"><span>🧼</span> Higiene e limpeza</button>
+        <button class="melhoria" data-melhoria="Reposição"><span>📦</span> Reposição</button>
+        <button class="melhoria" data-melhoria="Apresentação"><span>🍽️</span> Apresentação</button>
+      </div>
+      <button id="btnMelhoriasContinuar" class="melhorias-continuar">Continuar</button>
+    </div>
+  </div>
+
+  <!-- Tela de comentário (aparece após escolher Ótimo/Bom/Ruim) -->
+  <div id="comentarioTela" class="comentario-tela" hidden>
+    <div class="comentario-box">
+      <div class="comentario-pergunta">Gostaria de deixar algum comentário, elogio ou Sugestão?</div>
+      <textarea id="comentarioTexto" class="comentario-input" placeholder="Digite aqui sua opinião..." rows="4"></textarea>
+      <div class="comentario-acoes">
+        <button id="btnSemComentario" class="comentario-btn">Não, Obrigado</button>
+        <button id="btnComComentario" class="comentario-btn comentario-btn--sim">Sim, enviar comentário</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay de agradecimento -->
+  <div id="thanks" class="thanks" aria-live="polite" hidden>
+    <div class="thanks__card">
+      <span class="thanks__icon">✓</span>
+      <h2>Obrigado pela sua avaliação!</h2>
+      <p>Sua resposta foi registrada.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span id="localCount">0 respostas neste aparelho</span>
+    <span id="pendingCount"></span>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/sessao.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/survey.js"></script>
+</body>
+</html>
